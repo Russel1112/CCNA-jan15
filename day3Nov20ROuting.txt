@@ -1,0 +1,398 @@
+
+1. Ping Dikit
+2. Route Not Dikit
+   using static routes
+
+TASK1: HOW TO BE A NETWORK ENGINEE: Skillset.
+Malupet sa CORE skills. Routing: and Switching.
+static routing = Min. Wage. Lahat ng Icafe(worldWide)
+EIGRP = enhanced interior gateway routing protocol
+OSPF = Open Shortest Path First
+BGP = Bordergateway Protocol/BiGPayDay.
+VPN site to site.=
+
+TASK2: 
+PC:
+ping 10.m.1.10
+ping 10.m.1.4
+
+TASK3: F.U Cisco!!!!!
+bagong pasado CCNA = hirap sa job Interview!/di no offer!
+1995->2019 = CCNA: static,eigrp,ospf,BGP.
+CCNA + CCNP: encor
+CCNA + CCNP: enarsi
+
+200-301= Static,OSPF.
+CCNP Encor= static,eigrp,ospf,BGP.
+Switch: Cisco INVENTED the EthernetSwitch/Router
+         
+Cisco Switch = 2/3x
+HP,dell,Allied,etc..
+
+TASK4: IP PACKET: MERON dinukot!
+ospf = Hello packet
+eigrp = Hello packet
+BGP = "N.O.K.U"
+
+TASK5: HOW TO BE a CCNA with CCNP skills:(Pba -> nba!)
+learn to make alias:
+
+config t
+alias exec bp show ip int brief | ex una
+alias exec cn show cdp neighbor
+alias exec sc show run | section
+alias exec si show ip route
+alias exec sp show ip protocol
+end
+
+REMOVEall Routing: static,eigrp,ospf, bgp:
+how to get fired command: FACTORY RESET ROUTING.
+config t
+no ip routing
+ip routing
+END
+
+Static routing in P1, p2:
+@p1:
+config t
+int e0/0
+ no shut
+ ip add 10.2.1.101 255.255.255.0
+ ip route 0.0.0.0  0.0.0.0  10.2.1.1
+end
+@p2:
+config t
+int e1/0
+ no shut
+ ip add 10.2.1.102 255.255.255.0
+ ip route 0.0.0.0  0.0.0.0  10.2.1.1
+end
+
+TASK6: EIGRP: Enhanced Interior gateway Routing Protocol.
+FACTs:
+1.Hybrid Routing protocol: linkstate(Hello) + distance Vector
+2.Choosy: 5 metrics
+  Bandwidth Delay Reliability Loading MTU.
+3. Admin Distance: 90 = internal Eigrp
+                   170 = external Eigrp
+4. Eigrp: 32bit and 64bit(wildcard).
+R4: 32bit Eigrp
+config t
+router eigrp 100
+no auto-summary
+network 10.1.4.8 0.0.0.3
+network 10.1.4.4 0.0.0.3
+end
+@D1@64bit eigrp:
+config t
+router eigrp SYETKA
+ address-family ipv4 unicast autonomous-system 100
+ network 10.1.4.4 0.0.0.3
+ network 10.2.1.0 0.0.0.255
+ network 10.2.2.0 0.0.0.255
+ network 192.168.1.128 0.0.0.31
+ end 
+@D2@64bit eigrp:
+config t
+router eigrp  SYETKA
+ address-family ipv4 unicast autonomous-system 100
+ network 10.1.4.8 0.0.0.3
+ network 10.2.1.0 0.0.0.255
+ network 10.2.2.0 0.0.0.255
+ network 192.168.1.128 0.0.0.31
+ end 
+PASTE: r4:
+1.Show ip eigrp neighbor: EIgrp hello discovers neighbors
+
+2. show ip eigrp topology: all the Networks are Shared.
+
+3. show ip route eigrp: displays all the BEST routes.
+
+why use eigrp = the World FASTEST routing protocol:
+                ping AGAD/andar Agad. = 1 seconds
+eigrp = "fakboi Lifestyle starter pack!"
+
+TASK7: OPEN SHORTEST PATH FIRST: open standard routing protocol.
+slowestInternal Routing protocol:
+"DITE ELF:"
+1.Down = no hello protocol sent/recive
+2.Init = get hello protocol
+3.TwoWay = send hello
+4. Exstart = build OSPF neighbor
+5. Exchange = send DBD
+6. Loading = full OSPF adjancies
+7. Full State = "1-3minutes"
+
+TASK8: Multi-Area OSPF:
+Max Routers in an Area: 50
+@R4:
+config t
+no router ospf 1
+router ospf 1
+ network 10.1.1.8 0.0.0.3 Area 34
+end
+@R3:
+config t
+no router ospf 1
+router ospf 1
+ network 10.1.1.8 0.0.0.3 Area 34
+ network 10.1.1.4 0.0.0.3 area 0
+@R2:
+config t
+no router ospf 1
+router ospf 1
+ network 10.1.1.4 0.0.0.3 area 0
+ network 10.1.1.0 0.0.0.3 area 12
+@R1
+config t
+no router ospf 1
+router ospf 1
+ network 10.1.1.0 0.0.0.3 area 12
+end
+5 types of OSPF Packet.
+Hello Packet:
+RouterID,Aid,SM,hello,dead,DR,BackupDR
+
+DBD Packet: database description:
+Contains METAdata about Routes.
+
+LSU packet: link state Update
+contains type 1 to type 7 LSA.
+
+1 show ip ospf neighbor
+
+2. show ip ospf database
+
+3. show ip route ospf
+
+TASK9: Introduction Routes in OSPF:
+@r1:
+config t
+Int lo 1
+ ip add 1.1.1.1 255.255.255.255
+ ip ospf 1 area 12
+end
+@R2:
+config t
+Int lo 1
+ ip add 2.2.2.2 255.255.255.255
+ ip ospf 1 area 0
+end
+@R3:
+config t
+Int lo 1
+ ip add 3.3.3.3 255.255.255.255
+ ip ospf 1 area 0
+end
+@R4:
+config t
+Int lo 1
+ ip add 4.4.4.4 255.255.255.255
+ ip ospf 1 area 34
+end
+
+TASK10: ccnp Skills: 
+Route Redistribution: 
+step1: ipasok sa eigrp sa loob ng OSPF:
+@R4:
+config t
+router ospf 1
+ redistribute eigrp 100 subnets
+end
+@R4: ipasok OSPF sa maArteng EIGRP:
+config t
+router eigrp 100
+ redistribute ospf 1 Metric 10000 1000 255 1 1500
+end
+
+TASK11: EXAM/JOBINTERVIEW REVIEW:
+eigrp:
+show run | sec eigrp
+sh ip ei neighbor = sien
+sh ip ei topo     = siet
+sh ip protocol
+OSPF:
+sh run | sec ospf
+sh ip ospf neighbor = sion
+sh ip ospf database = sioD
+sh ip protocol
+
+TASK12: LEARNING THE HIGHEST EARNING NETWORK SKILLS:
+         BGP = border gateway protocol.
+   "the Internet = BGP + DNS "
+step1: learn what is a AS number:
+Autonomous System Number: Group of internet routers under
+the same administration/control./ Bigtime = BGP.
+
+step2: 2 types of BGP
+interior BGP = AD/200
+exterior BGP = AD/20
+
+step3: BGP packet Types: "noku"
+Notification
+Open
+KeepAlive
+UPDATE = most Important.
+
+TASK13: HOW TO CONFIGURE REALWORLD BGP in ISP and Telco.
+Ping Dikit!
+@R1:
+config t
+router bgp 1
+bgp log-neighbor-changes
+neighbor 209.9.9.3 remote-as 3
+neighbor 207.7.7.2 remote-as 2
+neighbor 208.8.8.4 remote-as 45
+network 10.1.1.0 mask 255.255.255.252
+network 207.7.7.0 mask 255.255.255.0
+network 208.8.8.0 mask 255.255.255.0
+network 209.9.9.0 mask 255.255.255.0
+
+@ISP1:
+router bgp 45
+bgp log-neighbor-changes
+neighbor 45.4.5.5 remote-as 45
+neighbor 24.2.4.2 remote-as 2
+neighbor 208.8.8.1 remote-as 1
+network 24.2.4.0 mask 255.255.255.0
+network 44.44.44.44 mask 255.255.255.255
+network 45.4.5.0 mask 255.255.255.0
+network 208.8.8.0 mask 255.255.255.0
+network 0.0.0.0
+!PekengInternetKUNO
+ip route 0.0.0.0 0.0.0.0 Null 0
+ip route 10.0.0.0 255.0.0.0 208.8.8.1
+
+@ISP2:
+router bgp 2
+bgp log-neighbor-changes
+neighbor 25.2.5.5 remote-as 45
+neighbor 24.2.4.4 remote-as 45
+neighbor 207.7.7.1 remote-as 1
+neighbor 32.3.2.3 remote-as 3
+network 22.22.22.22 mask 255.255.255.255
+network 24.2.4.0 mask 255.255.255.0
+network 25.2.5.0 mask 255.255.255.0
+network 32.3.2.0 mask 255.255.255.0
+network 207.7.7.0 mask 255.255.255.0
+network 0.0.0.0
+!PekengInternetKUNO
+ip route 0.0.0.0 0.0.0.0 Null 0
+ip route 10.0.0.0 255.0.0.0 207.7.7.1
+
+@ISP3:
+router bgp 3
+bgp log-neighbor-changes
+neighbor 35.3.5.5 remote-as 45
+neighbor 32.3.2.2 remote-as 2
+neighbor 209.9.9.1 remote-as 1
+network 33.33.33.33 mask 255.255.255.255
+network 32.3.2.0 mask 255.255.255.0
+network 35.3.5.0 mask 255.255.255.0
+network 209.9.9.0 mask 255.255.255.0
+network 0.0.0.0
+!PekengInternetKUNO
+ip route 0.0.0.0 0.0.0.0 Null 0
+ip route 10.0.0.0 255.0.0.0 209.9.9.1
+
+
+@ISP4:FakeGoogle
+config t
+Int Loop 8
+ ip add 8.8.8.8 255.255.255.255
+router bgp 45
+bgp log-neighbor-changes
+neighbor 35.3.5.3 remote-as 3
+neighbor 25.2.5.2 remote-as 2
+neighbor 45.4.5.4 remote-as 45
+network 8.8.8.8 mask 255.255.255.255
+network 25.2.5.0 mask 255.255.255.0
+network 35.3.5.0 mask 255.255.255.0
+network 45.4.5.0 mask 255.255.255.0
+
+TASK14: HOW TO CHECK IF BGP:
+sc bgp 
+sh ip bgp summary
+show ip bgp
+show ip route bgp
+
+TASK15: OSPF IS THE ONLY one That can Handle BGP
+        routes. JOBs = BGP/OSPF, Japan: BGP/ISIS
+@R1: all BGP routes summarized as O*e2
+config t
+router ospf 1
+ default-information originate
+end
+
+TASK16: SUPER ADVANCE SKILLS:
+bgp manipulate R1, so that it prefers ISP3
+R1:
+config t
+router bgp 1
+ neighbor 209.9.9.3 weight 50
+ do clear ip bgp * soft
+end
+
+TASK17: HAYUP LEVEL BGP SKILLS.
+how to be a Buraot in the internet.
+ISP3: will tell r1, not to USE me.
+config t
+route-map WAGAKO permit 10
+ set as-path prepend 3 3 3 3 3 3
+exit
+router bgp 3
+ neighbor 209.9.9.1 route-map WAGAKO out
+ do clear ip bgp * soft
+end
+
+TASK18: ROUTING VS TUNNELING:
+VIRTUAL PRIVATE NETWORKING.
+2 TYPES OF VPN:
+1. lazada/Shopee/fortinet: client VPN
+2. ePLDT,Globe,ETPI: site to site VPN:
+
+how to make VPN/ VPN formula:
+VPN = 
+1. tunnel: GRE,L2tp,pptp,IPSEC
+   ip naka tago sa loob ng Isang IP
+2. encryption : RSA,AES,3DES, 
+3. hashing: md5,SHA1,sha256
+   protects DATA from fake.
+vpnPH:
+config t
+no logging console
+no ip domain-lookup
+int gi1
+ip add dhcp
+no shut
+int gi2
+ no shut
+ ip add 200.0.0.1 255.255.255.0
+int gi3
+ no shut
+ ip add 10.10.1.1 255.255.255.0
+end
+wr
+
+vpnJAPAN:
+config t
+no logging console
+no ip domain-lookup
+int gi1
+ip add dhcp
+no shut
+int gi2
+ no shut
+ ip add 200.0.0.2 255.255.255.0
+int gi3
+ no shut
+ ip add 10.20.2.1 255.255.255.0
+end
+
+TASK19: THE MIGRATION TO IPV6 NETWORKS.
+
+task20:
+sunday,monday,tues = Static,eigrp,ospf,bgp,redistrubtion
+                   p1#ping 8.8.8.8
+wed,thursday = SITE 2 SITE VPN.
+FRIDAY/sat =  LinuxDockers
